@@ -11,7 +11,6 @@ import csv, math, os, re
 from dataclasses import dataclass
 from typing import List, Tuple
 
-
 @dataclass
 class Municipality:
     name: str
