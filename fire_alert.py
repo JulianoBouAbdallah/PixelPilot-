@@ -103,7 +103,6 @@ def filter_within_threshold(munis: List[Municipality],
     selected.sort(key=lambda x: x.distance_km)
     return selected
 
-
 def send_sms_via_api_stub(phone_e164: str, message_text: str) -> None:
     # Placeholder for your future SMS API call.
     print()
