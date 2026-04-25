@@ -25,8 +25,6 @@ def get_csv_path() -> str:
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), "municipalities.csv")
 
 
-
-
 def _sniff_dialect(sample: str) -> csv.Dialect:
     try:
         return csv.Sniffer().sniff(sample, delimiters=",;\t|")
