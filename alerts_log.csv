@@ -1,4 +1,4 @@
-#SMS alert log: records sms messages 
+
 timestamp_utc,source,lat,lon,recipients,message,extra,product_or_feed
 2026-01-26T15:50:07Z,NASA FIRMS,33.2037800000,35.4491700000,"+96171097068,+96179123460,+96170123461,96171097068",[NASA FIRMS – VIIRS_NOAA21_NRT] https://www.google.com/maps/search/?api=1&query=33.2037800000%2C35.4491700000 Confidence: L (low) | FRP: 3.30 MW (min filter: 1.00 MW). Caution: Fire detected near your region. Please act promptly.,confidence=l; frp=3.30; when=2025-08-26 9:58Z,VIIRS_NOAA21_NRT
 2026-01-26T15:50:07Z,NASA FIRMS,33.6168500000,35.4304300000,"+96171097068,+96179123460,+96170123461,96171097068",[NASA FIRMS – VIIRS_NOAA21_NRT] https://www.google.com/maps/search/?api=1&query=33.6168500000%2C35.4304300000 Confidence: H (high) | FRP: 17.31 MW (min filter: 1.00 MW). Caution: Fire detected near your region. Please act promptly.,confidence=h; frp=17.31; when=2025-08-26 9:58Z,VIIRS_NOAA21_NRT
