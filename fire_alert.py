@@ -85,4 +85,28 @@ def load_municipalities(csv_path: str) -> List[Municipality]:
             except Exception as e:
                 print(f"[WARN] Skipping bad row {i}: {e}")
     return results
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    R = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlmb = math.radians(lon2 - lon1)
+    a = (math.sin(dphi/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dlmb/2)**2)
+    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+def filter_within_threshold(munis: List[Municipality],
+                            center_lat: float, center_lon: float,
+                            threshold_km: float) -> List[Municipality]:
+    selected: List[Municipality] = []
+    for m in munis:
+        d = haversine_km(center_lat, center_lon, m.latitude, m.longitude)
+        m.distance_km = d
+        if 0.0 <= d <= threshold_km:
+            selected.append(m)
+    selected.sort(key=lambda x: x.distance_km)
+    return selected
+
+
+def send_sms_via_api_stub(phone_e164: str, message_text: str) -> None:
+    # Placeholder for your future SMS API call.
+    print()
 
