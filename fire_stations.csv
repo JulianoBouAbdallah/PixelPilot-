@@ -1,1 +1,29 @@
 #stores all fire stations in lebanon
+
+station_id,station_name,latitude,longitude,address,phone_e164,station_type,coverage_area,status,created_by
+
+B001,Beirut Central Fire Station,33.8889,35.4955,Martyrs' Square Downtown Beirut,96170123456,Central,"Beirut, Ashrafieh, Hamra",Active,admin
+B002,Hazmieh Fire Station,33.8406,35.5429,Hazmieh Main Road Baabda District,96170123461,District,"Hazmieh, Furn El Chebbak, Sin El Fil",Active,admin
+B003,Baabda Civil Defense Center,33.8335,35.5446,Baabda Presidential Palace Area,96179123460,Regional,"Baabda, Yarze, Louaize",Active,admin
+B004,Broummana Fire Brigade,33.8889,35.6108,Broummana Center Metn,96178123459,District,"Broummana, Beit Mery, Mansourieh",Active,admin
+B005,Beit Mery Emergency Station,33.8686,35.6074,Beit Mery Main Street,96170123466,Local,"Beit Mery, Ain Saadeh",Active,admin
+B006,Aley Civil Defense,33.8070,35.5970,Aley Serail Road,96171097068,District,"Aley, Bhamdoun, Souk El Gharb",Active,admin
+B007,Dekwaneh Fire Department,33.8857,35.5440,Dekwaneh Industrial Zone,96176123458,District,"Dekwaneh, Jdeideh, Nahr El Mot",Active,admin
+B008,Antelias Emergency Services,33.9560,35.5911,Antelias Sea Road,96171123462,District,"Antelias, Dbayeh, Jal El Dib",Active,admin
+B009,Zalka Fire Station,33.9168,35.5663,Zalka Highway Intersection,96176123463,Local,"Zalka, Jal El Dib, Mkalles",Active,admin
+B010,Jounieh Civil Defense,33.9800,35.6156,Jounieh Old Souk Area,96178123464,Regional,"Jounieh, Kaslik, Ghazir",Active,admin
+B011,Zouk Mikael Fire Brigade,33.9700,35.6400,Zouk Mikael Main Street,96171122222,District,"Zouk Mikael, Zouk Mosbeh, Adma",Active,admin
+B012,Jbeil (Byblos) Fire Station,34.1230,35.6510,Byblos Port Area,96171234789,District,"Jbeil, Amchit, Blat",Active,admin
+B013,Tripoli Central Fire Station,34.4367,35.8497,Tripoli Al-Tall Square,96164123456,Central,"Tripoli, Mina, Beddawi",Active,admin
+B014,Zgharta Civil Defense,34.4000,35.9000,Zgharta Town Center,96164123457,District,"Zgharta, Ehden, Kfarhata",Active,admin
+B015,Batroun Fire Department,34.2533,35.6581,Batroun Sea Road,96164123458,District,"Batroun, Chekka, Hamat",Active,admin
+B016,Saida (Sidon) Fire Station,33.5600,35.3750,Saida Sea Castle Area,96177123457,Regional,"Saida, Maghdouche, Ghazieh",Active,admin
+B017,Sour (Tyre) Civil Defense,33.2700,35.2000,Tyre Roman Hippodrome Area,96177123458,Regional,"Tyre, Borj El Chemali, Qana",Active,admin
+B018,Nabatiyeh Fire Brigade,33.3767,35.4833,Nabatiyeh Government Serail,96177123459,District,"Nabatiyeh, Kfar Remen, Habboush",Active,admin
+B019,Zahleh Central Fire Station,33.8450,35.9042,Zahleh Boulevard,96188123456,Regional,"Zahleh, Chtaura, Bar Elias",Active,admin
+B020,Baalbek Civil Defense,34.0047,36.2111,Baalbek Roman Ruins Area,96188123457,Regional,"Baalbek, Douris, Ras Baalbek",Active,admin
+B021,Hermel Emergency Station,34.3942,36.3869,Hermel Center,96188123458,District,"Hermel, Al Qaa, Qasr",Active,admin
+B022,Halba (Akkar) Fire Station,34.5417,36.0833,Halba Main Square,96164123459,District,"Halba, Kobayat, Andket",Active,admin
+B023,Bcharre Civil Defense,34.2500,36.0100,Bcharre Cedar Road,96164123460,District,"Bcharre, Hasroun, Bqaa Kafra",Active,admin
+B024,Zahrani Fire Department,33.4833,35.3667,Zahrani Oil Refinery Area,96177123462,District,"Zahrani, Ghaziyeh, Sarafand",Active,admin
+B025,Rmeileh Emergency Station,33.5833,35.3833,Rmeileh Coastal Road,96170123467,Local,"Rmeileh, Damour, Naameh",Active,admin
