@@ -1,4 +1,4 @@
-#stores all fire stations in lebanon
+
 
 station_id,station_name,latitude,longitude,address,phone_e164,station_type,coverage_area,status,created_by
 
