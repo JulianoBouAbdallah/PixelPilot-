@@ -39,3 +39,50 @@ def _sniff_dialect(sample: str) -> csv.Dialect:
             lineterminator = "\n"
             quoting = csv.QUOTE_MINIMAL
         return _D() 
+    
+def _to_float(val: str) -> float:
+    return float((val or "").strip().replace(",", "."))
+
+def _normalize_phone(phone: str) -> str:
+    phone = (phone or "").strip()
+    if phone and not phone.startswith("+") and phone[0].isdigit():
+        phone = "+" + phone
+    return phone
+
+def load_municipalities(csv_path: str) -> List[Municipality]:
+    results: List[Municipality] = []
+    if not os.path.exists(csv_path):
+        print(f"[ERROR] Can't find CSV at: {csv_path}")
+        print("Make sure 'municipalities.csv' is in the same folder as fire_alert.py.")
+        return results
+
+    with open(csv_path, "r", encoding="utf-8", newline="") as f:
+        sample = f.read(4096); f.seek(0)
+        dialect = _sniff_dialect(sample)
+        reader = csv.DictReader(f, dialect=dialect)
+
+        field_map = {(fn or "").strip().lstrip("\ufeff").lower(): fn for fn in (reader.fieldnames or [])}
+        def get(row, key): 
+            orig = field_map.get(key, "")
+            return (row.get(orig) if orig else "") if row else ""
+
+        required = {"municipality","latitude","longitude","phone_e164"}
+        if not required.issubset(set(field_map.keys())):
+            print("[ERROR] CSV is missing required headers.")
+            print("Expected: municipality, latitude, longitude, phone_e164")
+            print("Detected:", reader.fieldnames)
+            return results
+
+        for i, row in enumerate(reader, start=2):
+            try:
+                name  = (get(row,"municipality") or "").strip()
+                lat   = _to_float(get(row,"latitude"))
+                lon   = _to_float(get(row,"longitude"))
+                phone = _normalize_phone(get(row,"phone_e164"))
+                if not name:
+                    raise ValueError("empty municipality name")
+                results.append(Municipality(name=name, latitude=lat, longitude=lon, phone_e164=phone))
+            except Exception as e:
+                print(f"[WARN] Skipping bad row {i}: {e}")
+    return results
+
