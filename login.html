@@ -134,7 +134,7 @@
             <p>Fire Detection & Emergency Dispatch</p>
         </div>
 
-        <!-- ============ LOGIN FORM ============ -->
+        <!-- login form -->
         <div id="errorBox" class="error-message"></div>
 
         <form id="loginForm">
@@ -204,7 +204,7 @@
             <p style="margin-top:8px;">🔒 Account locks after 5 failed attempts</p>
         </div>
 
-        <!-- ============ SIGNUP LINK (hidden on signup) ============ -->
+        <!-- signup link (hidden on signup) -->
         <div id="signupLink" style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
             <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
                 Don't have an account?
@@ -285,12 +285,11 @@
                 }).catch(() => {});
             } catch (e) {}
 
-            // Redirect based on role
-            // ======================= CHANGE PATHS LATER ===============================
+            // Redirect based on role =========================> check paths
             if (role === 'Administrator') {
-                window.location.href = '/Users/user/Desktop/uni/2_spring2026/CSC490%20-%20software%20engineering/project/code/new/admin.html'; 
+                window.location.href = '/admin.html'; 
             } else {
-                window.location.href = '/Users/user/Desktop/uni/2_spring2026/CSC490%20-%20software%20engineering/project/code/new/index.html';
+                window.location.href = '/index.html';
             }
         }
 
@@ -483,7 +482,7 @@
                     } catch (e) {}
 
                     // Redirect to dashboard
-                    window.location.href = '/';
+                    window.location.href = '/dashboard.html';
                 }
             })
             .catch(error => {
