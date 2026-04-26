@@ -64,7 +64,6 @@ def load_municipalities(csv_path: str) -> List[Municipality]:
             orig = field_map.get(key, "")
             return (row.get(orig) if orig else "") if row else ""
 
-
         required = {"municipality","latitude","longitude","phone_e164"}
         if not required.issubset(set(field_map.keys())):
             print("[ERROR] CSV is missing required headers.")
@@ -106,3 +105,79 @@ def filter_within_threshold(munis: List[Municipality],
     selected.sort(key=lambda x: x.distance_km)
     return selected
 
+
+def send_sms_via_api_stub(phone_e164: str, message_text: str) -> None:
+    # Placeholder for your future SMS API call.
+    print()
+
+
+def prompt_coords(default_lat: float = 34.094, default_lon: float = 35.651) -> Tuple[float, float]:
+    """
+    Ask once for both numbers. Accepts formats like:
+      34.094, 35.651   OR   34.094 35.651   OR   [34.094, 35.651]
+    Tip: If you use decimal commas (34,094), separate the two values with a SPACE.
+    """
+    while True:
+        raw = input(f"Fire Latitude and Longitude coordinates [{default_lat}, {default_lon}]: ").strip()
+        if raw == "":
+            return default_lat, default_lon
+
+        # remove brackets and normalize separators
+        raw = raw.strip("[]()")
+        raw = raw.replace(";", " ").replace("|", " ")
+        # try comma first; if too many commas (decimal-commas), fall back to whitespace
+        parts = [p.strip() for p in raw.split(",")] if raw.count(",") in (0,1) else raw.split()
+        if len(parts) == 1:
+            parts = parts[0].split()  # maybe user used only space
+        if len(parts) != 2:
+            print("Please enter two numbers like: 34.094, 35.651  (or space separated).")
+            continue
+        try:
+            lat = float(parts[0].replace(",", "."))
+            lon = float(parts[1].replace(",", "."))
+            return lat, lon
+        except ValueError:
+            print("Couldn't parse numbers. Try again (example: 34.094, 35.651).")
+
+def prompt_threshold(default_km: float = 10.0) -> float:
+    while True:
+        raw = input(f"Threshold distance in km [<= {default_km} default {default_km}]: ").strip()
+        if raw == "":
+            return default_km
+        raw = raw.replace(",", ".")
+        try:
+            v = float(raw)
+            if v < 0:
+                print("Threshold must be >= 0.")
+                continue
+            return v
+        except ValueError:
+            print("Please enter a valid number (e.g., 10).")
+
+
+# --------------------------- Main ---------------------------
+def main():
+    print("=== Fire Alert (Interactive) ===")
+    lat, lon = prompt_coords()
+    threshold_km = prompt_threshold(10.0)  # min is implicitly 0
+
+    csv_path = get_csv_path()
+    municipalities = load_municipalities(csv_path)
+    if not municipalities:
+        return
+
+    matches = filter_within_threshold(municipalities, lat, lon, threshold_km)
+
+    print(f"\nMunicipalities within the threshold distance of 0-{threshold_km} km:")
+    if not matches:
+        print("None found within the specified distance.")
+        return
+
+    for m in matches:
+        msg = f"FIRE ALERT: Fire near {lat:.5f},{lon:.5f}. Please check {m.name}."
+        send_sms_via_api_stub(m.phone_e164, msg)
+        print(f"{m.name}: At a Distance of {m.distance_km:.1f}km from the fire -> SMS sent to {m.phone_e164}")
+
+
+if __name__ == "__main__":
+    main()
