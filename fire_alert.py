@@ -25,8 +25,6 @@ def get_csv_path() -> str:
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), "municipalities.csv")
 
 
-
-
 def _sniff_dialect(sample: str) -> csv.Dialect:
     try:
         return csv.Sniffer().sniff(sample, delimiters=",;\t|")
@@ -38,8 +36,12 @@ def _sniff_dialect(sample: str) -> csv.Dialect:
             skipinitialspace = False
             lineterminator = "\n"
             quoting = csv.QUOTE_MINIMAL
-        return _D() 
-        ef _normalize_phone(phone: str) -> str:
+        return _D()
+
+def _to_float(val: str) -> float:
+    return float((val or "").strip().replace(",", "."))
+
+def _normalize_phone(phone: str) -> str:
     phone = (phone or "").strip()
     if phone and not phone.startswith("+") and phone[0].isdigit():
         phone = "+" + phone
@@ -61,4 +63,3 @@ def load_municipalities(csv_path: str) -> List[Municipality]:
         def get(row, key): 
             orig = field_map.get(key, "")
             return (row.get(orig) if orig else "") if row else ""
-
