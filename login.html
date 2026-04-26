@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FDEDC System – Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #1a1a2e;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0f3460;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #0f3460;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover { background: #16213e; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message.show { display: block; }
+
+        .attempts-warning {
+            color: #f90;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #999;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .btn-signup {
+            width: auto;
+            padding: 10px 24px;
+            background: white;
+            color: #0f3460;
+            border: 2px solid #0f3460;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-signup:hover {
+            background: #f0f4ff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🔥 FDEDC System</h1>
+            <p>Fire Detection & Emergency Dispatch</p>
+        </div>
+
+        <!-- ============ LOGIN FORM ============ -->
+        <div id="errorBox" class="error-message"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username"
+                       placeholder="Enter your username" required autofocus>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password"
+                       placeholder="Enter your password" required>
+            </div>
+
+            <p id="attemptsWarning" class="attempts-warning"></p>
+
+            <button type="submit" class="btn" id="loginBtn">Log In</button>
+        </form>
+
+        <div id="signupForm" style="display: none;">
+            <h3 style="text-align: center; margin-bottom: 20px; color: #1a1a2e;">Create Account</h3>
+
+            <div id="signupError" class="error-message"></div>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="signupFullName">Full Name</label>
+                    <input type="text" id="signupFullName" placeholder="Enter your full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email">
+                </div>
+
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" placeholder="Choose a username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signupConfirmPassword">Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                </div>
+
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+
+            <!-- Back to Login link (only visible on signup page) -->
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="#" onclick="showLoginForm(); return false;" style="color: #0f3460; text-decoration: none; font-size: 14px;">
+                    ← Back to Login
+                </a>
+            </div>
+        </div>
+
+        <div class="footer" id="loginFooter">
+            <p>Default logins:</p>
+            <p>👤 <strong>admin</strong> / <strong>admin123</strong> (Administrator)</p>
+            <p>👤 <strong>operator</strong> / <strong>operator123</strong> (Operator)</p>
+            <p style="margin-top:8px;">🔒 Account locks after 5 failed attempts</p>
+        </div>
+
+        <!-- ============ SIGNUP LINK (hidden on signup) ============ -->
+        <div id="signupLink" style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee;">
+            <p style="font-size: 14px; color: #666; margin-bottom: 10px;">
+                Don't have an account?
+            </p>
+            <button type="button" class="btn-signup" onclick="showSignupForm()">
+                Create Account
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Hardcoded credentials (prototype only)
+        const VALID_USERS = {
+            'admin':    { password: 'admin123',    role: 'Administrator', fullName: 'System Administrator' },
+            'operator': { password: 'operator123', role: 'Operator',      fullName: 'Duty Operator' }
+        };
+
+        let failedAttempts = 0;
+        const MAX_ATTEMPTS = 5;
+        let locked = false;
+
+        // Show error message
+        function showError(message) {
+            const box = document.getElementById('errorBox');
+            box.textContent = message;
+            box.classList.add('show');
+        }
+
+        // Hide error message
+        function hideError() {
+            const box = document.getElementById('errorBox');
+            box.classList.remove('show');
+        }
+
+        // Update attempts warning
+        function updateAttemptsWarning() {
+            const warning = document.getElementById('attemptsWarning');
+            if (failedAttempts > 0 && !locked) {
+                const remaining = MAX_ATTEMPTS - failedAttempts;
+                warning.textContent = `⚠️ ${remaining} attempt${remaining > 1 ? 's' : ''} remaining before lockout`;
+            } else if (locked) {
+                warning.textContent = '🔒 Account is locked. Refresh the page to try again.';
+            } else {
+                warning.textContent = '';
+            }
+        }
+
+        // Lock the account
+        function lockAccount() {
+            locked = true;
+            document.getElementById('loginBtn').disabled = true;
+            document.getElementById('username').disabled = true;
+            document.getElementById('password').disabled = true;
+            showError('Account locked after 5 failed attempts. Please refresh the page to try again.');
+            updateAttemptsWarning();
+        }
+
+        // Helper: Successful login – set session and redirect
+        function loginSuccess(username, fullName, role) {
+            localStorage.setItem('fdedc_user', JSON.stringify({
+                username: username,
+                fullName: fullName,
+                role: role,
+                loginTime: new Date().toISOString()
+            }));
+
+            // Log the login to audit
+            try {
+                fetch('/api/audit-log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        timestamp: new Date().toISOString(),
+                        user: username,
+                        action: 'LOGIN_SUCCESS',
+                        details: 'User logged in successfully'
+                    })
+                }).catch(() => {});
+            } catch (e) {}
+
+            // Redirect based on role
+            if (role === 'Administrator') {
+                window.location.href = '/admin';
+            } else {
+                window.location.href = '/';
+            }
+        }
+
+        // Helper: Check if user exists in users.csv
+        async function checkRegisteredUser(username, password) {
+            try {
+                const response = await fetch('/users.csv');
+                if (!response.ok) return null;
+
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                if (lines.length < 2) return null; // Only header row, no users
+
+                for (let i = 1; i < lines.length; i++) {
+                    const values = lines[i].split(',');
+                    const csvUser = values[0].trim();
+                    const csvPass = values[1].trim();
+                    const csvFullName = values[2].trim();
+                    const csvRole = (values[4] || 'Operator').trim();
+
+                    if (csvUser === username && csvPass === password) {
+                        return {
+                            username: csvUser,
+                            fullName: csvFullName,
+                            role: csvRole
+                        };
+                    }
+                }
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // Handle LOGIN form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (locked) {
+                showError('Account is locked. Refresh the page to try again.');
+                return;
+            }
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                showError('Please enter both username and password.');
+                return;
+            }
+
+            // Step 1: Check hardcoded users (admin, operator)
+            const user = VALID_USERS[username];
+
+            if (user && password === user.password) {
+                // Hardcoded user login success
+                failedAttempts = 0;
+                hideError();
+                updateAttemptsWarning();
+                loginSuccess(username, user.fullName, user.role);
+                return;
+            }
+
+            // Step 2: Check CSV-registered users (from sign-ups)
+            try {
+                const registeredUser = await checkRegisteredUser(username, password);
+                if (registeredUser) {
+                    // Registered user login success
+                    failedAttempts = 0;
+                    hideError();
+                    updateAttemptsWarning();
+                    loginSuccess(registeredUser.username, registeredUser.fullName, registeredUser.role);
+                    return;
+                }
+            } catch (e) {
+                console.log('Could not check registered users (server may be offline)');
+            }
+
+            // Step 3: Both checks failed
+            failedAttempts++;
+            showError('Invalid username or password.');
+            updateAttemptsWarning();
+            if (failedAttempts >= MAX_ATTEMPTS) lockAccount();
+        });
+
+        // Toggle between login and sign-up forms
+        function showSignupForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('signupLink').style.display = 'none';
+            document.getElementById('loginFooter').style.display = 'none';
+            document.getElementById('errorBox').classList.remove('show');
+            document.getElementById('signupError').classList.remove('show');
+            // Clear signup fields
+            document.getElementById('signupFullName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupUsername').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupConfirmPassword').value = '';
+        }
+
+        function showLoginForm() {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupLink').style.display = 'block';
+            document.getElementById('loginFooter').style.display = 'block';
+            document.getElementById('errorBox').classList.remove('show');
+            document.getElementById('signupError').classList.remove('show');
+            // Clear login fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Handle REGISTRATION form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const errorBox = document.getElementById('signupError');
+            errorBox.classList.remove('show');
+
+            const fullName = document.getElementById('signupFullName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            // Validation
+            if (!fullName || !username || !password) {
+                errorBox.textContent = 'Full name, username, and password are required.';
+                errorBox.classList.add('show');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorBox.textContent = 'Passwords do not match.';
+                errorBox.classList.add('show');
+                return;
+            }
+
+            if (password.length < 4) {
+                errorBox.textContent = 'Password must be at least 4 characters.';
+                errorBox.classList.add('show');
+                return;
+            }
+
+            // Check hardcoded users first
+            if (VALID_USERS[username]) {
+                errorBox.textContent = 'Username already exists. Please choose another.';
+                errorBox.classList.add('show');
+                return;
+            }
+
+            // Send to server
+            fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                    fullName: fullName,
+                    email: email
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    errorBox.textContent = data.error;
+                    errorBox.classList.add('show');
+                } else {
+                    // Registration successful – log them in automatically
+                    localStorage.setItem('fdedc_user', JSON.stringify({
+                        username: username,
+                        fullName: fullName,
+                        role: 'Operator',
+                        loginTime: new Date().toISOString()
+                    }));
+
+                    // Log the registration
+                    try {
+                        fetch('/api/audit-log', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                timestamp: new Date().toISOString(),
+                                user: username,
+                                action: 'USER_REGISTERED',
+                                details: 'New user registered: ' + username
+                            })
+                        }).catch(() => {});
+                    } catch (e) {}
+
+                    // Redirect to dashboard
+                    window.location.href = '/';
+                }
+            })
+            .catch(error => {
+                errorBox.textContent = 'Server error. Make sure the server is running.';
+                errorBox.classList.add('show');
+                console.error('Registration failed:', error);
+            });
+        });
+
+        // Clear error on input change
+        document.getElementById('username').addEventListener('input', hideError);
+        document.getElementById('password').addEventListener('input', hideError);
+    </script>
+</body>
+</html>
