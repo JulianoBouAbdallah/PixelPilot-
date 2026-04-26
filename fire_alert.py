@@ -63,3 +63,46 @@ def load_municipalities(csv_path: str) -> List[Municipality]:
         def get(row, key): 
             orig = field_map.get(key, "")
             return (row.get(orig) if orig else "") if row else ""
+
+
+        required = {"municipality","latitude","longitude","phone_e164"}
+        if not required.issubset(set(field_map.keys())):
+            print("[ERROR] CSV is missing required headers.")
+            print("Expected: municipality, latitude, longitude, phone_e164")
+            print("Detected:", reader.fieldnames)
+            return results
+
+        for i, row in enumerate(reader, start=2):
+            try:
+                name  = (get(row,"municipality") or "").strip()
+                lat   = _to_float(get(row,"latitude"))
+                lon   = _to_float(get(row,"longitude"))
+                phone = _normalize_phone(get(row,"phone_e164"))
+                if not name:
+                    raise ValueError("empty municipality name")
+                results.append(Municipality(name=name, latitude=lat, longitude=lon, phone_e164=phone))
+            except Exception as e:
+                print(f"[WARN] Skipping bad row {i}: {e}")
+    return results
+
+
+def haversine_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    R = 6371.0
+    p1, p2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlmb = math.radians(lon2 - lon1)
+    a = (math.sin(dphi/2)**2 + math.cos(p1)*math.cos(p2)*math.sin(dlmb/2)**2)
+    return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1-a))
+
+def filter_within_threshold(munis: List[Municipality],
+                            center_lat: float, center_lon: float,
+                            threshold_km: float) -> List[Municipality]:
+    selected: List[Municipality] = []
+    for m in munis:
+        d = haversine_km(center_lat, center_lon, m.latitude, m.longitude)
+        m.distance_km = d
+        if 0.0 <= d <= threshold_km:
+            selected.append(m)
+    selected.sort(key=lambda x: x.distance_km)
+    return selected
+
